@@ -90,38 +90,26 @@ def add_user():
     else:
         return redirect("/")
 
-# Route to add employee details 
-@app.route('/add_patient', methods=['POST'])
-def add_patient():
+# Route to employee survey 
+@app.route('/employee_form')
+def employee_form():
     if current_user.is_authenticated:
-        patient_dict = {}
-        patient_data = request.get_data()
-        patient_data = patient_data.decode()
-        patient_data = patient_data.split("&")
-        for item in patient_data:
+        return render_template('employee_form.html')
+    else:
+        return redirect("/")
+    
+@app.route('/employee_form/submit', methods=['POST'])
+def employee_form_process():
+    if current_user.is_authenticated:
+        employee_data = request.get_data()
+        employee_data = employee_data.decode()
+        employee_data = employee_data.split("&")
+        for item in employee_data:
             item = item.split("=")
             if "+" in item[1]:
                 item[1] = item[1].replace("+", " ")
-            patient_dict[item[0]] = item[1]
-        patient_dict["name"] = current_user.username
-        if "hypertension" in patient_dict:
-            patient_dict["hypertension"] = True
-        else:
-            patient_dict["hypertension"] = False
-        if "heart_disease" in patient_dict:
-            patient_dict["heart_disease"] = True
-        else:
-            patient_dict["heart_disease"] = False
-        if "stroke" in patient_dict:
-            patient_dict["stroke"] = True
-        else:
-            patient_dict["stroke"] = True
-        if "smoking_status" in patient_dict:
-            patient_dict["smoking_status"] = True
-        else:
-            patient_dict["smoking_status"] = False
-        print(patient_dict, flush=True)
-        insert_data(patient_dict, mongo_connection)
+            employee_data[item[0]] = item[1]
+        employee_data["name"] = current_user.username
     return redirect('/')
 
 @app.route('/view_patients')
