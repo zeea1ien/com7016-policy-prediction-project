@@ -9,6 +9,7 @@ import pymongo
 import random as R
 import ast
 import pandas as pd
+import pickle
 from process_dataset import *
 
 
@@ -107,12 +108,11 @@ def employee_form_process():
         employee_data = request.get_data()
         employee_data = employee_data.decode()
         employee_data = employee_data.split("&")
+        employee_data_dict = {}
         for item in employee_data:
             item = item.split("=")
-            if "+" in item[1]:
-                item[1] = item[1].replace("+", " ")
-            employee_data[item[0]] = item[1]
-        employee_data["name"] = current_user.username
+            employee_data_dict[item[0]] = item[1]
+        print(employee_data_dict)
     return redirect('/')
 
 @app.route('/view_patients')

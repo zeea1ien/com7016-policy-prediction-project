@@ -7,15 +7,11 @@
     {% if current_user.is_authenticated %}
       {% if user_data is none or user_data|length <= 0 %}
 
-        <!-- Add Patient Form -->
+        <!-- Add Employee Form -->
         <h2 class="text-center mb-4">Add Employee Data</h2>
         <form action="/employee_form/submit" method="post" class="p-4 border rounded bg-light">
 
-            <!-- Unique Employee Number -->
-            <div class="mb-3">
-            <label for="Employee" class="form-label">Employee Number:</label>
-            <input type="number" name="age" id="age" class="form-control" required>
-          </div>
+            
 
           <!-- Age -->
           <div class="mb-3">
@@ -23,126 +19,121 @@
             <input type="number" name="age" id="age" class="form-control" required>
           </div>
 
-          <!-- Gender -->
-          <div class="mb-3">
-            <label for="gender" class="form-label">Gender:</label>
-            <select name="gender" id="gender" class="form-select" required>
-              <option value="" selected>Select One</option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-              <option value="Other">Other</option>
-            </select>
-          </div>
-
+       
           <!--Department -->
           <div class="mb-3">
-            <label for="Department" class="form-label">Department:</label>
-            <select name="Department" id="Department" class="form-select" required>
-              <option value="" selected>Select One</option>
+            <label for="Dept" class="form-label">Department:</label>
+            <select name="Dept" id="Dept" class="form-select" required>
+              <option value="" selected disabled>Select One</option>
               <option value="Technology">Technology</option>
               <option value="HR">HR</option>
               <option value="Sales">Sales</option>
               <option value="Marketing">Marketing</option>
-              <option value="Other">Other</option>
-              
-
+              <option value="Purchasing">Purchasing</option>
             </select>
           </div>
 
-          <!-- Emoployee Contract Type -->
+
+          <!-- job Level -->
           <div class="mb-3">
-            <label for="contract_type" class="form-label">Contract Type:</label>
-            <select name="contract_type" id="contract_type" class="form-select" required>
-              <option value="" selected>Select One</option>
-              <option value="Full_time">Full Time</option>
-              <option value="Part_Time">Part Time</option>
-              <option value="Agency">Agency</option>
-              <option value="Temp">Temp</option>
+            <label for="job_level" class="form-label">Employment Status:</label>
+            <select name="job_level" id="job_level" class="form-select" required>
+              <option value="" selected disabled>Select One</option>
+              <option value="5">Excecutive</option>
+              <option value="4">Senior Manager-4</option>
+              <option value="3">Manager-3</option>
+              <option value="2">Employee-2</option>
+              <option value="1">Agency-1</option>
             </select>
           </div>
 
-          <!-- Employment Level -->
+          <!-- Happiness rating in role -->
           <div class="mb-3">
-            <label for="work_type" class="form-label">Employment Status:</label>
-            <select name="work_type" id="work_type" class="form-select" required>
-              <option value="" selected>Select One</option>
-              <option value="Exectutive">Excecutive</option>
-              <option value="senior_manager">Senior Manager</option>
-              <option value="manager">Manager</option>
-              <option value="employee">Employee</option>
-              <option value="Agency">Agency</option>
-            </select>
-          </div>
-
-          <!-- Happiness in role -->
-          <div class="mb-3">
-            <label for="currentHappiness" class="form-label">How happy are you in your current role?</label>
-            <select name="currentHappiness" id="currentHappiness" class="form-select" required>
-              <option value="" selected>Select One</option>
-              <option value="Very_Unhappy">Very Unhappy</option>
-              <option value="Unhappy">Unhappy</option>
-              <option value="Neautral">Neautral</option>
-              <option value="Happy">Happy</option>
-              <option value="very_happy">Very Happy</option>
+            <label for="rating" class="form-label">How happy are you in your current role?</label>
+            <select name="rating" id="rating" class="form-select" required>
+              <option value="" disabled selected>Select One</option>
+              <option value="1">Very Unhappy</option>
+              <option value="2">Unhappy</option>
+              <option value="3">Neautral</option>
+              <option value="4">Happy</option>
+              <option value="5">Very Happy</option>
             </select>
           </div>
           
-           <!-- Pay grade Satisfaction -->
+           <!--onsite -->
           <div class="mb-3">
-            <label for="PaygradeSatisfaction" class="form-label">How happy are you in your current Pay grade?</label>
-            <select name="PaygradeSatisfaction" id="PaygradeSatisfaction" class="form-select" required>
-              <option value="" selected>Select One</option>
-              <option value="Very_Unhappy">Very Unhappy</option>
-              <option value="Unhappy">Unhappy</option>
-              <option value="Neautral">Neautral</option>
-              <option value="Happy">Happy</option>
-              <option value="very_happy">Very Happy</option>
+            <label for="onsite" class="form-label">do you work in the office?</label>
+            <select name="onsite" id="onsite" class="form-select" required>
+              <option value="" disabled selected>Select One</option>
+              <option value="1">Yes</option>
+              <option value="0">No</option>
+            </select>
+          </div>
+          <!--Education Level -->
+          <div class="mb-3">
+            <label for="education_level" class="form-label">Whats your education background?</label>
+            <select name="education_level" id="education_level" class="form-select" required>
+              <option value="" disabled selected>Select One</option>
+              <option value="PG">Post-Graduate</option>
+              <option value="UG">Under-Graduate</option>
+            </select>
+          </div>
+          <!--Awards -->
+          <div class="mb-3">
+            <label for="Awards" class="form-label">How Many Awards have you recieved since starting?</label>
+            <select name="Awards" id="Awards" class="form-select" required>
+              <option value="" disabled selected>Select One</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
             </select>
           </div>
 
-          <!--Last Promotion -->
+    
+
+           <!--Certifications -->
           <div class="mb-3">
-            <label for="LastPromotion" class="form-label">When was your last promotion?</label>
-            <select name="LastPromotion" id="LastPromotion" class="form-select" required>
-              <option value="" selected>Select One</option>
-              <option value="Very_Unhappy">0-1 Years</option>
-              <option value="Unhappy">1-3 Years</option>
-              <option value="Neautral">3-5 Years</option>
-              <option value="Happy">Over 5 Years</option>
+            <label for="Certifications" class="form-label">Are you Certified?</label>
+            <select name="Certifications" id="Creation" class="form-select" required>
+              <option value="" disabled selected>Select One</option>
+              <option value="1">Yes</option>
+              <option value="0">No</option>
             </select>
           </div>
 
-          <!-- Manager Satisfaction -->
+        <!-- Pay -->
           <div class="mb-3">
-            <label for="managerSatisfaction" class="form-label">How happy are you in your leadership?</label>
-            <select name="managerSatisfaction" id="managerSatisfaction" class="form-select" required>
-              <option value="" selected>Select One</option>
-              <option value="Very_Unhappy">Very unhappy</option>
-              <option value="Unhappy">Unhappy</option>
-              <option value="Neautral">Neautral</option>
-              <option value="Happy">Happy</option>
-              <option value="very_happy">Very Happy</option>
+            <label for="Pay" class="form-label">Salary:</label>
+            <input type="number" name="pay" id="pay" class="form-control" required>
+          </div>
+
+           <!--Job Satisfaction -->
+          <div class="mb-3">
+            <label for="satisfaction" class="form-label">Are you happy in your role?</label>
+            <select name="satisfaction" id="jobSatisfaction" class="form-select" required>
+              <option value="" disabled selected>Select One</option>
+              <option value="1">Yes</option>
+              <option value="0">No</option>
             </select>
           </div>
 
-          <!-- Overall Job Satisfaction -->
+           <!--Model Selection -->
           <div class="mb-3">
-            <label for="OverallJob_satisfaction" class="form-label">How happy are you with your overall job satisfaction?</label>
-            <select name="OverallJob_satisfaction" id="OverallJob_satisfaction" class="form-select" required>
-              <option value="" selected>Select One</option>
-              <option value="Very_Unhappy">Very Unhappy</option>
-              <option value="Unhappy">Unhappy</option>
-              <option value="Neautral">Neautral</option>
-              <option value="Happy">Happy</option>
-              <option value="very_happy">Very Happy</option>
+            <label for="model_selection" class="form-label">Which AI model would you like to use?</label>
+            <select name="model_selection" id="model_selection" class="form-select" required>
+              <option value="" disabled selected>Select One</option>
+              <option value="lin">Linear</option>
+              <option value="ran">Random Forest</option>
             </select>
           </div>
           
-          <!-- Additional Comment -->
-          <div class="form-check mb-3">
-            <label for="additonalComment">Any additonal comments?</label> 
-            <textarea id="additonalComment" name="additonalComment" placeholder=""Your feedback... style="width: 50pc;"></textarea>
-          </div>
            <!-- Submit Button -->
           <div class="text-center">
             <button type="submit" class="btn btn-primary">Submit Form</button>
