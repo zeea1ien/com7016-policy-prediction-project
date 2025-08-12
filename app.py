@@ -8,6 +8,12 @@ import sqlite3
 import pymongo
 import random as R
 import ast
+import pandas as pd
+from process_dataset import *
+from Linear_Model import init_knn_model
+from Linear_Model import init_Linear_Model
+from RandomForest_Model import init_Random_Forest_Model
+
 
 users = {} #global dict to store users data
 
@@ -140,3 +146,15 @@ def delete_user():
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", debug=True)
+
+
+
+#Load the student data.
+dt = pd.read_csv("Employee Satisfaction Index.csv")
+dt = clean_drop(dt)
+dt = normalise_boolean(dt)
+init_knn_model(dt)
+print("---------------------------------------------------------------")
+init_Linear_Model(dt)
+print("---------------------------------------------------------------")
+init_Random_Forest_Model(dt)

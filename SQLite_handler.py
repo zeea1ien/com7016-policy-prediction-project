@@ -43,7 +43,7 @@ def user_exists(username):
     connection = sqlite3.connect("users.db")
     cursor = connection.cursor()
     cursor.execute("SELECT * FROM table_users WHERE user_name = ?", (username,))
-    if len(cursor.fetchall()) >= 1:
+    if len(cursor.fetchall()) > 0:
         cursor.close()
         connection.close()
         return True #The user exists
@@ -77,10 +77,22 @@ def user_check_confirmation(user_id):
     connection.close()
     return user_info
 
+def user_check_password(user_dict):
+    try:
+        connection = sqlite3.connect("user.db")
+        cursor = connection.cursor()
+        cursor.execute("SELECT user_pass FROM table_users WHERE username = %s", (user_dict["username"]))
+        if user_dict["user_pass"] == cursor.fetchall()[0][0]:
+            return True
+        else:
+            return False
+    except:
+        return False
+
 def user_delete(username):
     connection = sqlite3.connect("users.db")
     cursor = connection.cursor()
-    cursor.execute("DELETE FROM table_users WHERE user_name = ?", (username,))
+    cursor.execute("DELETE FROM table_users WHERE username = ?", (username,))
     connection.commit()
     cursor.close()
     connection.close()

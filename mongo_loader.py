@@ -3,7 +3,7 @@ import pymongo
 # Establish a connection to the MongoDB server
 def connect_to_mongodb():
     try:
-        mongodb = pymongo.MongoClient("mongodb://localhost:27017")
+        mongodb = pymongo.MongoClient("employeedb://localhost:27017")
         print("Connected to MongoDB successfully!")
         return mongodb
     except pymongo.errors.ConnectionError as e:
@@ -13,7 +13,7 @@ def connect_to_mongodb():
 # Function to insert data into MongoDB
 def insert_data(data, mongodb):
     try:
-        mydatabase = mongodb["StrokeDB"]
+        mydatabase = mongodb["EmployeeDB"]
         user_collection = mydatabase["PatientCollection"]
         user_collection.insert_one(data)
         print("Data inserted successfully!")
@@ -41,4 +41,4 @@ def find_data(mongodb, search=None):
 def delete_patient(what_to_delete, mongodb):
     mydatabase = mongodb["StrokeDB"]
     user_collection = mydatabase["PatientCollection"]
-    user_collection.delete_many(what_to_delete)
+    user_collection.delete_many(what_to_delete) #
