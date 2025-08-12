@@ -10,18 +10,15 @@ import random as R
 import ast
 import pandas as pd
 from process_dataset import *
-from Linear_Model import init_knn_model
-from Linear_Model import init_Linear_Model
-from RandomForest_Model import init_Random_Forest_Model
 
 
 users = {} #global dict to store users data
 
 create_connection()
-mongo_connection = connect_to_mongodb()
+mongodb = connect_to_mongodb()
 app = Flask(__name__)
 app.secret_key = "ASecretButNotSoSecretKey"# secret key for secuirty- to protect user session data 
-#mongodb = pymongo.MongoClient("mongodb://localhost:27017")
+mongodb = connect_to_mongodb()
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -39,9 +36,9 @@ def load_fuser(id):
 @app.route('/')
 def home():
     if current_user.is_authenticated is True:
-        return render_template('home.html', user_data=find_data(mongo_connection, {"name": current_user.username}))
+        return render_template('home.html', user_data=find_data(mongodb, {"name": current_user.username}))
     else:
-        return render_template('home.html', user_data=find_data(mongo_connection, {"name": None}))
+        return render_template('home.html', user_data=find_data(mongodb, {"name": None}))
 #Signup
 @app.route("/signup")
 def signup():
@@ -121,19 +118,19 @@ def employee_form_process():
 @app.route('/view_patients')
 def view_patients():
     # Retrieve patients from MongoDB
-    return render_template('patients.html', mongo_patients=find_data(mongo_connection))
+    return render_template('patients.html', mongo_patients=find_data(mongodb))
 
 @app.route('/your_data')
 def user_data():
     if current_user.is_authenticated is True:
-        return render_template('profile.html', user_data=find_data(mongo_connection, {"name": current_user.username}))
+        return render_template('profile.html', user_data=find_data(mongodb, {"name": current_user.username}))
     else:
          
         return redirect('/')
 
 @app.route('/delete_data')
 def delete_data():
-    delete_patient({"name": current_user.username}, mongo_connection)
+    delete_patient({"name": current_user.username}, mongodb)
     return redirect('/')
 
 @app.route('/delete_user')
@@ -146,15 +143,3 @@ def delete_user():
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", debug=True)
-
-
-
-#Load the student data.
-dt = pd.read_csv("Employee Satisfaction Index.csv")
-dt = clean_drop(dt)
-dt = normalise_boolean(dt)
-init_knn_model(dt)
-print("---------------------------------------------------------------")
-init_Linear_Model(dt)
-print("---------------------------------------------------------------")
-init_Random_Forest_Model(dt)

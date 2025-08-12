@@ -1,5 +1,6 @@
 import pandas as pd 
-from sklearn.preprocessing import LabelEncoder,MinMaxScaler
+from RandomForest_Model import *
+from Linear_Model import *
 
 def save_map(column_map, column_name):
     map_file = open("maps/" + column_name + "_map.txt", "w")
@@ -24,9 +25,12 @@ def map_column(dataset, column_name):
     return dataset
 
 #load the dataset 
-df = pd.read_csv("Employee Satisfaction Index.csv")
+df = pd.read_csv("Employee Satisfaction Index.csv", index_col=0)
 cleaned_data = df.drop(columns={"emp_id", "location", "recruitment_type"}, index=1)
 cleaned_data = cleaned_data.reset_index(drop=True)
 cleaned_data = map_column(cleaned_data, "Dept")
 cleaned_data = map_column(cleaned_data, "education")
 cleaned_data.to_csv("Employee Satisfaction Index Cleaned.csv")
+init_Random_Forest_Model(cleaned_data)
+print("--------------------------------------------------------------------------")
+init_Linear_Model(cleaned_data)
