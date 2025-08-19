@@ -34,3 +34,5 @@ cleaned_data.to_csv("Employee Satisfaction Index Cleaned.csv")
 init_Random_Forest_Model(cleaned_data)
 print("--------------------------------------------------------------------------")
 init_Linear_Model(cleaned_data)
+for column in cleaned_data:
+    print(column)

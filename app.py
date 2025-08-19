@@ -10,7 +10,7 @@ import random as R
 import ast
 import pandas as pd
 import pickle
-from process_dataset import *
+#from process_dataset import *
 
 
 users = {} #global dict to store users data
@@ -70,7 +70,6 @@ def loggingIn():
         user_data = user_data.split("&")
         user_dict["username"] = user_data[0].replace("username=", "")
         user_dict["password"] = user_data[1].replace("password=", "")
-      
         if user_exists(user_dict["username"]) is True:
             login_user(User(user_getID(user_dict["username"]), user_dict["username"],))
             return redirect('/')
@@ -109,11 +108,31 @@ def employee_form_process():
         employee_data = employee_data.decode()
         employee_data = employee_data.split("&")
         employee_data_dict = {}
+        prediction = 0
         for item in employee_data:
             item = item.split("=")
-            employee_data_dict[item[0]] = item[1]
-        print(employee_data_dict)
-    return redirect('/')
+            print(item[0], item[1], flush=True)
+            employee_data_dict[item[0]] = [int(item[1])]
+        if employee_data_dict["model_selection"] == [0]:
+            employee_data_panda = pd.DataFrame(employee_data_dict)
+            employee_data_panda = employee_data_panda.drop(columns={"model_selection", "job_level"})
+            employee_data_panda = employee_data_panda[["age", "Dept", "education", "rating", "onsite", "awards", "certifications", "salary", "satisfied"]]
+            model_file = open("./static/models/linear_pickle", "rb")
+            model = pickle.load(model_file)
+            model_file.close()
+            prediction = model.predict(X=employee_data_panda)
+        else:
+            employee_data_panda = pd.DataFrame(employee_data_dict)
+            employee_data_panda = employee_data_panda.drop(columns={"model_selection", "job_level"})
+            employee_data_panda = employee_data_panda[["age", "Dept", "education", "rating", "onsite", "awards", "certifications", "salary", "satisfied"]]
+            model_file = open("./static/models/random_pickle", "rb")
+            model = pickle.load(model_file)
+            model_file.close()
+            prediction = model.predict(X=employee_data_panda)
+        print(prediction)
+        return render_template("result.html", result=prediction)
+    else:
+        return redirect("/")
 
 @app.route('/view_patients')
 def view_patients():
