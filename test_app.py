@@ -1,62 +1,21 @@
 import pytest
-from bcrypt import hashpw, gensalt, checkpw
-from app import app, create_user,user_exists,users
+from app import app, create_user,user_exists,users, user_delete
 
 
-users = {}  #mock user for testing
+test_user = {"username": "test", "password": "password"}  #mock user for testing
 
-#setup for FLASK Test Client Testing
-@pytest.fixture
-def client():
-    app.config['TESTING'] = True
-    with app.test_client() as client:
-        yield client
+def test_user_exists():
+    assert user_exists(test_user["username"]) is False #does user exsist if no then create them
+    create_user(test_user)
+    assert user_exists(test_user["username"]) is True
+    user_delete(test_user["username"])
+    assert user_exists(test_user["username"]) is False #checks user again
 
+def test_create_user():
+    assert create_user({}) is False
+    assert create_user(test_user) is True
+    user_delete(test_user["username"])
 
-
-#test1: check password hashing works
-
-def test_password_hashing():
-    password = "simplepassword"
-    hashed_password = hashpw(password.encode('utf-8'), gensalt())
-#checking password matches 
-    assert checkpw(password.encode('utf-8'), hashed_password)
-#check incorrect password does not match
-    assert not checkpw("wrongpassword".encode('utf-8'), hashed_password)
-
-
-# test 2: Register/store hashed passwords
-
-def test_register_user(client):
-    # Register a user
-    client.post('/add_user', data={
-        'username': 'testuser1',
-        'password': 'simplepassword1'
-    })
-
-    users = {"testuser": "addman9"}
-    # Check if user was added to the users dictionary
-    users = {"testuser": "addman9"}
-    users.get('testuser')
-    
-
-
-#Test 3: testing logging in with correct/incorrect passwords
-def test_login_user(client):
-    username = 'testuser'
-    password = 'simplepassword'
-    users[username] = hashpw(password.encode('utf-8'), gensalt())  # Store hashed password
-
-    #Login with correct password
-    client.post('/loggingIn', data={
-        'username': username,
-        'password': password
-    })
-    
-
-    #Login with incorrect password
-    client.post('/loggingIn', data={
-        'username': username,
-        'password': 'wrongpassword'
-    })
-   
+def test_user_delete():
+    create_user(test_user)
+    assert user_delete(test_user["username"]) is True

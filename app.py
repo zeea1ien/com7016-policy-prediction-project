@@ -147,12 +147,6 @@ def employee_form_process():
         return render_template("result.html", result=prediction, model_name=model_name)
     else:
         return redirect("/")
-        
-
-@app.route('/view_employee')
-def view_employees():
-    # Retrieve employee data from MongoDB
-    return render_template('patient.html', mongo_patients=find_data(mongodb))
 
 @app.route('/your_data')
 def user_data():

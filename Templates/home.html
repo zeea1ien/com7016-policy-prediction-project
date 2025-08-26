@@ -1,12 +1,18 @@
 {% extends "layout.html" %}
 {% block content %}
+
   <!-- Header Section -->
   <div class="container-fluid p-5 bg-primary text-white text-center">
     <h1>Employee satisfaction: HR Portal</h1>
   </div>
   {% if current_user.is_authenticated %}
-    <h2>About</h2> <br>
-    <p>This Websites aim is to be used in my COM7016 project module this is what its going to do </p>
+    <h2>About This Project</h2> <br>
+    <p>This site demonstrates the use of machine learning to predict employee job satisfaction. 
+The system uses a MongoDB database to store user inputs and Python to process the data.
+Users can fill out a simple form and choose between two prediction models: Random Forest or Linear Regression. 
+Once submitted, the system runs the data through the selected model and generates results that highlight predicted 
+levels of employee satisfaction.</p><br>
+    <p>Future development will explore integrating the prediction system into an AI chatbot.</p>
   {% else %}
     <div class="text-center mt-5">
         <h2>Not Logged In!</h2>
