@@ -1,6 +1,63 @@
 {% extends "layout.html" %}
 {% block content %}
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<body>
+   <h1>Statistics</h1>
+
+  <h3>R² Score Comparison</h3>
+  <canvas id="r2Chart"></canvas>
+
+  <h3>MSE Comparison</h3>
+  <canvas id="mseChart"></canvas>
+
+  <h3>Random Forest Feature Importance</h3>
+  <canvas id="rfChart"></canvas>
+
+  <h3>Linear Regression Coefficients</h3>
+  <canvas id="lrChart"></canvas>
+
+  <script>
+    // this is just visuals based on all the data 
+    const models = ["Linear Regression", "Random Forest"];
+
+    new Chart(document.getElementById("r2Chart"), {
+      type: "bar",
+      data: {
+        labels: models,
+        datasets: [{ data: [0.67, 0.82], label: "R² Score" }]
+      }
+    });
+
+    new Chart(document.getElementById("mseChart"), {
+      type: "bar",
+      data: {
+        labels: models,
+        datasets: [{ data: [0.84, 0.43], label: "MSE" }]
+      }
+    });
+
+    new Chart(document.getElementById("rfChart"), {
+      type: "bar",
+      data: {
+        labels: ["age","Dept","education","job_level","rating","onsite,awards","certifications","salary","satisfied"],
+        datasets: [{ data: [0.30, 0.25, 0.20, 0.15, 0.10], label: "Importance" }]
+      },
+      options: { indexAxis: "y" }
+    });
+
+    new Chart(document.getElementById("lrChart"), {
+      type: "bar",
+      data: {
+        labels: ["age","Dept","education","job_level","rating","onsite,awards","certifications","salary","satisfied"],
+        datasets: [{ data: [0.42, 0.30, 0.28, -0.25, -0.35], label: "Coefficient" }]
+      },
+      options: { indexAxis: "y" }
+    });
+  </script>
+</body>
+</body>
 
 
 

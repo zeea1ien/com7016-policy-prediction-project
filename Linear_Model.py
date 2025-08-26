@@ -1,7 +1,7 @@
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LinearRegression
-from sklearn.metrics import mean_squared_error, r2_score, accuracy_score, confusion_matrix
+from sklearn.metrics import mean_squared_error, r2_score, accuracy_score, confusion_matrix, classification_report
 import numpy as np
 import pickle
 
@@ -28,6 +28,14 @@ def init_Linear_Model(dt):
     print(confusion)
     score = accuracy_score(y_test, y_pred)
     print(score)
+    report = classification_report(y_test, y_pred, output_dict=True)
+    report_file = open("static/reports/linear_report.txt", "w")
+    report_file.write(str(report["macro avg"]["precision"]) + "\n")
+    report_file.write(str(report["macro avg"]["recall"]) + "\n")
+    report_file.write(str(report["macro avg"]["f1-score"]))
+    report_file.close()
+
+#link to the pickle file to display it on the website
     
     pickle_file = open("static/models/linear_pickle", "wb")
     pickle.dump(rf, pickle_file)

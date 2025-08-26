@@ -6,6 +6,7 @@ from user import User
 import random as R
 import pandas as pd
 import pickle
+from graphs import *
 
 
 
@@ -97,7 +98,7 @@ def employee_form():
     else:
         return redirect("/")
     
-#route to chatbot page 
+#route to chatbot page this page is currently not working
 @app.route('/chatbot')
 def chatbot():
     if current_user.is_authenticated:
@@ -105,6 +106,7 @@ def chatbot():
     else:
         return redirect("/")
     
+    #route to employee form, also displays the results of my code
 @app.route('/employee_form/submit', methods=['POST'])
 def employee_form_process():
     if current_user.is_authenticated:
@@ -113,7 +115,7 @@ def employee_form_process():
         employee_data = employee_data.split("&")
         employee_data_dict = {}
         prediction = 0
-        model = "Linear"
+        model_name = "Linear"
         for item in employee_data:
             item = item.split("=")
             print(item[0], item[1], flush=True)
@@ -126,6 +128,9 @@ def employee_form_process():
             model = pickle.load(model_file)
             model_file.close()
             prediction = model.predict(X=employee_data_panda)
+            model_report = open("static/reports/linear_report.txt")
+            report_data = [round(float(i), 2) for i in model_report]
+            bar_graph(["precision", "recall", "f1-score"], report_data, "", "Accuracy", "Linear Accuracy", "linear_bar")
         else:
             employee_data_panda = pd.DataFrame(employee_data_dict)
             employee_data_panda = employee_data_panda.drop(columns={"model_selection", "job_level"})
@@ -134,16 +139,20 @@ def employee_form_process():
             model = pickle.load(model_file)
             model_file.close()
             prediction = model.predict(X=employee_data_panda)
-            model = "Random Forest"
+            model_report = open("static/reports/random_report.txt")
+            report_data = [round(float(i), 2) for i in model_report]
+            bar_graph(["precision", "recall", "f1-score"], report_data, "", "Accuracy", "Random Accuracy", "random_bar")
+            model_name = "Random Forest"
         print(prediction)
-        return render_template("result.html", result=prediction, model=model)
+        return render_template("result.html", result=prediction, model_name=model_name)
     else:
         return redirect("/")
+        
 
 @app.route('/view_employee')
 def view_employees():
-    # Retrieve patients from MongoDB
-    return render_template('patients.html', mongo_patients=find_data(mongodb))
+    # Retrieve employee data from MongoDB
+    return render_template('patient.html', mongo_patients=find_data(mongodb))
 
 @app.route('/your_data')
 def user_data():
@@ -152,6 +161,8 @@ def user_data():
     else:
          
         return redirect('/')
+    
+#deletes user data 
 
 @app.route('/delete_data')
 def delete_data():
@@ -166,5 +177,10 @@ def delete_user():
         user_delete(username)
     return redirect('/')
 
+#route to statistics page 
+@app.route("/statistics")
+def statistics():
+    return render_template("statistics.html")
+
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", debug=True)
+    app.run(host="0.0.0.0", debug=False)

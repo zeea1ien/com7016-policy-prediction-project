@@ -3,10 +3,17 @@
 <h1 class="text-center mb-4">Your Results</h1>
 <h4>This result is based on the model you have selected</h4>
     <p>Job Level: {{ result }}</p>
-    <p>Model Used: {{ model }}</p>
+    <p>Model Used: {{ model_name }}</p>
     {% if result <= 5 %}
-        <p>The result is less than or equal to five because...</p>
+        <p>The result is less than or equal to five</p>
     {% elif result == 6 %}
-        <p>etc...</p>
+        <p>the result is higher that five</p>
+    {% endif %}
+    {% if model_name == "Linear" %}
+        <p>Accuracy:</p>
+        <img src="{{ url_for('static', filename='graphs/models/linear_bar.png') }}">
+    {% else %}
+        <p>Accuracy:</p>
+        <img src="{{ url_for('static', filename='graphs/models/random_bar.png') }}">
     {% endif %}
 {% endblock %}

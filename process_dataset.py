@@ -2,6 +2,7 @@ import pandas as pd
 from RandomForest_Model import *
 from Linear_Model import *
 
+#creates the file maps 
 def save_map(column_map, column_name):
     map_file = open("maps/" + column_name + "_map.txt", "w")
     counter = 0
@@ -24,7 +25,7 @@ def map_column(dataset, column_name):
     save_map(column_map, column_name)
     return dataset
 
-#load the dataset 
+#loads the datasets 
 df = pd.read_csv("Employee Satisfaction Index.csv", index_col=0)
 cleaned_data = df.drop(columns={"emp_id", "location", "recruitment_type"}, index=1)
 cleaned_data = cleaned_data.reset_index(drop=True)
