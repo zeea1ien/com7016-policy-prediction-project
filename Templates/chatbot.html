@@ -1,14 +1,35 @@
-# launch my chatbot 
+
 {% extends "layout.html" %}
 {% block content %}
-<div class = "chat-container">
-    <h2>Start Chat</h2>
-    <div id="chat-bot"></div>
-    <form id="chat-form">
-        <input type="text" id="user-input" placeholder="Enter your message" autocomplete="off">
-        <button type="submit">send</button>
-    </form>
-</div>
+
+<style>
+    body{
+        background-color: #0d6efd;
+        color: white; 
+    }
+    h1{
+        font: size 1880px;
+        text-align: center;
+    }
+    p{
+        text-align: center;
+    }
+
+    div{
+        text-align: center;
+    }
+    
+    
+</style>
+<body> 
+    <br>
+    <h1>Error 404</h1>
+    <p>Chatbot Page Coming Soon</p>
+    <div class="loading">
+        <img src="{{ url_for('static', filename='images/hrglass.gif') }}" alt="Loading..." class="hg" stle="width: 60px; height:auto; display:block; margin:0 auto;">
+    </div>
+</body>
+
 
 
 {% endblock %}

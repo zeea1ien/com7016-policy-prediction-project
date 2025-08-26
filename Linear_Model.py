@@ -13,7 +13,7 @@ def init_Linear_Model(dt):
     # Split the data into training and test sets (70% training, 30% testing)
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42) 
 
-    # Initialize and train the Random Forest model
+    # Initialize and train the Linear model
     rf = LinearRegression()
     rf.fit(X_train, y_train)
     

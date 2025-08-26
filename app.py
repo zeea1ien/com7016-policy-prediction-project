@@ -3,14 +3,10 @@ from flask_login import LoginManager, current_user, login_user, logout_user
 from SQLite_handler import *
 from mongo_loader import *
 from user import User
-import os
-import sqlite3
-import pymongo
 import random as R
-import ast
 import pandas as pd
 import pickle
-#from process_dataset import *
+
 
 
 users = {} #global dict to store users data
@@ -101,6 +97,14 @@ def employee_form():
     else:
         return redirect("/")
     
+#route to chatbot page 
+@app.route('/chatbot')
+def chatbot():
+    if current_user.is_authenticated:
+        return render_template('chatbot.html')
+    else:
+        return redirect("/")
+    
 @app.route('/employee_form/submit', methods=['POST'])
 def employee_form_process():
     if current_user.is_authenticated:
@@ -109,6 +113,7 @@ def employee_form_process():
         employee_data = employee_data.split("&")
         employee_data_dict = {}
         prediction = 0
+        model = "Linear"
         for item in employee_data:
             item = item.split("=")
             print(item[0], item[1], flush=True)
@@ -129,13 +134,14 @@ def employee_form_process():
             model = pickle.load(model_file)
             model_file.close()
             prediction = model.predict(X=employee_data_panda)
+            model = "Random Forest"
         print(prediction)
-        return render_template("result.html", result=prediction)
+        return render_template("result.html", result=prediction, model=model)
     else:
         return redirect("/")
 
-@app.route('/view_patients')
-def view_patients():
+@app.route('/view_employee')
+def view_employees():
     # Retrieve patients from MongoDB
     return render_template('patients.html', mongo_patients=find_data(mongodb))
 
@@ -149,7 +155,7 @@ def user_data():
 
 @app.route('/delete_data')
 def delete_data():
-    delete_patient({"name": current_user.username}, mongodb)
+    delete_employees({"name": current_user.username}, mongodb)
     return redirect('/')
 
 @app.route('/delete_user')

@@ -20,7 +20,7 @@ def insert_data(data, mongodb):
     except Exception as e:
         print(f"An error occurred while inserting data: {e}")
 
-#Get Patient Data
+#Get employee Data
 def find_data(mongodb, search=None):
     data = []
     mydatabase = mongodb["EmployeeConn"]
@@ -37,8 +37,8 @@ def find_data(mongodb, search=None):
             data.append(patient)
     return data
 
-#Delete Patient Data
-def delete_patient(what_to_delete, mongodb):
+#Delete employee Data
+def delete_employees(what_to_delete, mongodb):
     mydatabase = mongodb["EmployeeConn"]
     user_collection = mydatabase["EmployeeDB"]
     user_collection.delete_many(what_to_delete) #
